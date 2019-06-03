@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -16,10 +17,57 @@ export class DishdetailComponent implements OnInit {
   prev: string;
   next: string;
 
+  commentForm: FormGroup;
+
+  formErrors = {
+    'author': '',
+    'comment': ''
+  };
+
+  validationMessages = {
+    'author': {
+      'required':      'Name is required.',
+      'minlength':     'First Name must be at least 2 characters long.'
+    },
+    'comment': {
+      'required':      'Comment is required.',
+    }
+  };
+
   constructor(
     private dishServie: DishService,
     private route: ActivatedRoute,
-    private location: Location) { }
+    private location: Location,
+    private fb: FormBuilder) {
+      this.createForm();
+    }
+
+  createForm() {
+    this.commentForm = this.fb.group({
+      author: ['', [Validators.required, Validators.minLength(2)]],
+      rating: 5,
+      comment: ['', Validators.required]
+    });
+    this.commentForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged();
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.commentForm) { return; }
+    const form = this.commentForm;
+    for (const field in this.formErrors) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const message = this.validationMessages[field];
+        for (const key in control.errors) {
+          if (control.errors.hasOwnProperty(key)) {
+            this.formErrors[field] = message[key] + ' ';
+          }
+        }
+      }
+    }
+  }
 
   ngOnInit() {
     this.dishServie.getDishIds().subscribe(dishIds => this.dishIds = dishIds);

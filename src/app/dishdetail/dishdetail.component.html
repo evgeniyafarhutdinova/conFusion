@@ -34,13 +34,39 @@
   <div fxFlex="40" *ngIf="dish">
     <mat-list>
       <h3>Comments</h3>
-      <mat-list-item *ngFor="let comment of dish['comments']">
+      <mat-list-item *ngFor="let comment of dish.comments">
         <p mat-line>{{comment.comment}}</p>
         <p mat-line>{{comment.rating}} Stars</p>
         <p mat-line>-- {{comment.author}} {{comment.date | date:'longDate'}}</p>
       </mat-list-item>
     </mat-list>
+    <form novalidate [formGroup]="commentForm" #cform="ngForm">
+      <p>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="author" placeholder="Name" type="text" required>
+          <mat-error *ngIf="formErrors.author">
+            {{ formErrors.author }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-slider step="1" tickInterval="1" max="5" thumbLabel value="5"></mat-slider>
+      </p>
+      <p>
+        <mat-form-field class="full-width">
+            <textarea matInput formControlName="comment" placeholder="Your Comment" rows=12></textarea>
+          <mat-error *ngIf="formErrors.comment">
+            {{ formErrors.comment }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <mat-dialog-actions>
+          <button type="submit" mat-button class="background-primary text-floral-white"
+            [disabled]="cform.form.invalid">Submit</button>
+      </mat-dialog-actions>
+    </form>
   </div>
+
   <div [hidden]="dish">
     <mat-spinner></mat-spinner>
     <h4>Loading...</h4>
