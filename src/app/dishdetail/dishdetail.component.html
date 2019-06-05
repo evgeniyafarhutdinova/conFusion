@@ -69,7 +69,7 @@
       </p>
       <mat-dialog-actions>
           <button type="submit" mat-button class="background-primary text-floral-white"
-            [disabled]="cform.form.invalid">Submit</button>
+            [disabled]="cform.form.invalid" (click)="onSubmit()">Submit</button>
       </mat-dialog-actions>
     </form>
   </div>
