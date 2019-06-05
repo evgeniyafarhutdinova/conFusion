@@ -39,22 +39,29 @@
         <p mat-line>{{comment.rating}} Stars</p>
         <p mat-line>-- {{comment.author}} {{comment.date | date:'longDate'}}</p>
       </mat-list-item>
+      <mat-list-item *ngIf="cform.valid">
+        <p mat-line>{{newComment.comment}}</p>
+        <p mat-line>{{newComment.rating}} Stars</p>
+        <p mat-line>-- {{newComment.author}}</p>
+      </mat-list-item>
     </mat-list>
-    <form novalidate [formGroup]="commentForm" #cform="ngForm">
+    <form novalidate [formGroup]="commentForm" #cform="ngForm" name="cform">
       <p>
         <mat-form-field class="full-width">
-          <input matInput formControlName="author" placeholder="Name" type="text" required>
+          <input matInput formControlName="author" placeholder="Name" type="text"
+            [(ngModel)]="newComment.author" required>
           <mat-error *ngIf="formErrors.author">
             {{ formErrors.author }}
           </mat-error>
         </mat-form-field>
       </p>
       <p>
-        <mat-slider step="1" tickInterval="1" max="5" thumbLabel value="5"></mat-slider>
+        <mat-slider step="1" tickInterval="1" max="5" thumbLabel [(value)]="newComment.rating"></mat-slider>
       </p>
       <p>
         <mat-form-field class="full-width">
-            <textarea matInput formControlName="comment" placeholder="Your Comment" rows=12></textarea>
+          <textarea matInput formControlName="comment" placeholder="Your Comment"
+            [(ngModel)]="newComment.comment" rows=12></textarea>
           <mat-error *ngIf="formErrors.comment">
             {{ formErrors.comment }}
           </mat-error>

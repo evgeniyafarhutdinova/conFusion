@@ -16,6 +16,7 @@ export class DishdetailComponent implements OnInit {
   dishIds: string[];
   prev: string;
   next: string;
+  newComment = {author:'', rating:5, comment:''};
 
   commentForm: FormGroup;
 
@@ -85,5 +86,4 @@ export class DishdetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-
 }
