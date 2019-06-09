@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar'; 
@@ -36,7 +37,9 @@ import { LeaderService } from './services/leader.service';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { LoginComponent } from './login/login.component';
-import { from } from 'rxjs';
+
+import { BaseURL } from './shared/baseurl';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import { from } from 'rxjs';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatToolbarModule,
     FlexLayoutModule,
     MatListModule,
@@ -74,7 +78,8 @@ import { from } from 'rxjs';
   providers: [
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+    {provide: 'BaseURL', useValue: BaseURL}
   ],
   entryComponents: [
     LoginComponent
