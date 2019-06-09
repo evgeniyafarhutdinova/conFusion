@@ -56,15 +56,19 @@
         <h3>{{leader.name | uppercase}}</h3>
       </mat-card-title>
     </mat-card-header>
-    <img mat-card-image src={{leader.image}} alt={{leader.name}}>
+    <img mat-card-image src="{{BaseURL + leader.image}}" alt={{leader.name}}>
     <mat-card-content>
       <p>{{leader.description}}
       </p>
     </mat-card-content>
   </mat-card>
-  <div [hidden]="leader">
+  <div [hidden]="leader || leaderErrorMess">
     <mat-spinner></mat-spinner>
     <h4>Loading...</h4>
+  </div>
+  <div fxFlex *ngIf="leaderErrorMess">
+    <h2>Error</h2>
+    <h4>{{leaderErrorMess}}</h4>
   </div>
 
 </div>

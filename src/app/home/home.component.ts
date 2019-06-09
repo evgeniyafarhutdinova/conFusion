@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   dish: Dish;
   errorMess: string;
   dishErrorMess: string;
+  leaderErrorMess: string;
   promotion: Promotion;
   leader: Leader;
 
@@ -44,7 +45,9 @@ export class HomeComponent implements OnInit {
         promo => this.promotion = promo,
         errormess => this.errorMess = errormess);
     this.leaderService.getFeaturedLeader()
-      .subscribe((leader) => this.leader = leader);
+      .subscribe(
+        leader => this.leader = leader,
+        errorMess => this.leaderErrorMess = errorMess);
   }
 
 }
