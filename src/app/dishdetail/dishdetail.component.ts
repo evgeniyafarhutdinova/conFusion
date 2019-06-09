@@ -5,6 +5,7 @@ import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -13,6 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class DishdetailComponent implements OnInit {
 
   dish: Dish;
+  errorMess: string;
   dishIds: string[];
   prev: string;
   next: string;
@@ -72,7 +74,8 @@ export class DishdetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dishServie.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.dishServie.getDishIds().subscribe(dishIds => this.dishIds = dishIds,
+        errormess => this.errorMess = errormess);
     this.route.params
       .pipe(switchMap((params: Params) => this.dishServie.getDish(params['id'])))
       .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
